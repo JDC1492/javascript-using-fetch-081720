@@ -1,0 +1,557 @@
+  [1m[35m (3.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBlogPosts (20200609134359)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "blog_posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "author" varchar, "content" varchar, "likes" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200609134359"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-06-09 13:45:01.308110"], ["updated_at", "2020-06-09 13:45:01.308110"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to ChangeColumnInBlogPost (20200609135556)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ablog_posts" ("id" integer NOT NULL PRIMARY KEY, "title" varchar DEFAULT NULL, "author" varchar DEFAULT NULL, "content" varchar DEFAULT NULL, "likes" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[32mINSERT INTO "ablog_posts" ("id","title","author","content","likes","created_at","updated_at")
+                     SELECT "id","title","author","content","likes","created_at","updated_at" FROM "blog_posts"[0m
+  [1m[35m (0.8ms)[0m  [1m[35mDROP TABLE "blog_posts"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "blog_posts" ("id" integer NOT NULL PRIMARY KEY, "title" varchar DEFAULT NULL, "author" varchar DEFAULT NULL, "content" varchar DEFAULT NULL, "likes" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "blog_posts" ("id","title","author","content","likes","created_at","updated_at")
+                     SELECT "id","title","author","content","likes","created_at","updated_at" FROM "ablog_posts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ablog_posts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mprimary::SchemaMigration Create (2.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200609135556"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.7ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Okay, I won't."], ["author", "King Lotharon"], ["content", "Guys can fake it? Unbelievable! The one thing that’s ours!"], ["likes", 47], ["created_at", "2020-06-09 14:08:19.171162"], ["updated_at", "2020-06-09 14:08:19.171162"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts" ORDER BY "blog_posts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.4ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I regret that I should leave this world without again beholding him."], ["author", "Buttercup"], ["content", "Oh, my God! If you say that one more time, I’m going to break up with you!"], ["likes", 69], ["created_at", "2020-06-09 14:09:51.470619"], ["updated_at", "2020-06-09 14:09:51.470619"]]
+  [1m[35m (2.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Happy."], ["author", "Fezzik"], ["content", "I can’t believe my Dad saw us having sex! He didn’t make it to one of my piano recitals, but this he sees!"], ["likes", 34], ["created_at", "2020-06-09 14:09:51.476308"], ["updated_at", "2020-06-09 14:09:51.476308"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "My vocabulary did this to me. Your love will let you go on…"], ["author", "Domingo Montoya"], ["content", "I'm Monica. I’m disgusting. I stalk guys and keep their underpants."], ["likes", 14], ["created_at", "2020-06-09 14:09:51.480279"], ["updated_at", "2020-06-09 14:09:51.480279"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "It's stopped."], ["author", "Westley"], ["content", "I’m glad we’re having a rehearsal dinner. I rarely practice my meals before I eat."], ["likes", 98], ["created_at", "2020-06-09 14:09:51.484744"], ["updated_at", "2020-06-09 14:09:51.484744"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I forgot something."], ["author", "Queen Bella"], ["content", "Until I was 25 I thought the only response to ‘I love you’ was ‘Oh crap!'"], ["likes", 42], ["created_at", "2020-06-09 14:09:51.488820"], ["updated_at", "2020-06-09 14:09:51.488820"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I love you too, honey. Good luck with your show."], ["author", "Fezzik"], ["content", "I'm Monica. I’m disgusting. I stalk guys and keep their underpants."], ["likes", 94], ["created_at", "2020-06-09 14:09:51.492684"], ["updated_at", "2020-06-09 14:09:51.492684"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I don't think they even heard me."], ["author", "The Albino"], ["content", "Oh, my God! If you say that one more time, I’m going to break up with you!"], ["likes", 12], ["created_at", "2020-06-09 14:09:51.496682"], ["updated_at", "2020-06-09 14:09:51.496682"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.6ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "You can get anything you want at Alice's restaurant."], ["author", "Prince Humperdinck"], ["content", "Joey doesn’t share food!"], ["likes", 11], ["created_at", "2020-06-09 14:09:51.501142"], ["updated_at", "2020-06-09 14:09:51.501142"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Do you want me to come with you?"], ["author", "The Albino"], ["content", "It hurts my Joey’s apple!"], ["likes", 95], ["created_at", "2020-06-09 14:09:51.506052"], ["updated_at", "2020-06-09 14:09:51.506052"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Hurrah for anarchy! This is the happiest moment of my life."], ["author", "The Countess"], ["content", "Come on Ross you’re a palaeontologist – dig a little deeper."], ["likes", 74], ["created_at", "2020-06-09 14:09:51.510192"], ["updated_at", "2020-06-09 14:09:51.510192"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (2.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts" LIMIT ?[0m  [["LIMIT", 11]]
+Started GET "/" for ::1 at 2020-06-09 10:10:20 -0400
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 10.1ms | Allocations: 480)
+Completed 200 OK in 26ms (Views: 19.6ms | ActiveRecord: 0.0ms | Allocations: 2632)
+
+
+Started GET "/rails/info/routes" for ::1 at 2020-06-09 10:10:38 -0400
+Processing by Rails::InfoController#routes as HTML
+  Rendering /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.1/lib/rails/templates/rails/info/routes.html.erb within layouts/application
+  Rendered collection of /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/actionpack-6.0.3.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [24 times] (Duration: 32.2ms | Allocations: 3509)
+  Rendered /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/actionpack-6.0.3.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (Duration: 6.7ms | Allocations: 1199)
+  Rendered /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.1/lib/rails/templates/rails/info/routes.html.erb within layouts/application (Duration: 79.6ms | Allocations: 6502)
+Completed 200 OK in 149ms (Views: 130.4ms | ActiveRecord: 0.0ms | Allocations: 7696)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:10:51 -0400
+Processing by BlogPostsController#index as HTML
+  [1m[36mBlogPost Load (16.0ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 58ms (Views: 33.2ms | ActiveRecord: 18.6ms | Allocations: 8165)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:22:26 -0400
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.4ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 14ms (Views: 11.0ms | ActiveRecord: 1.1ms | Allocations: 8091)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:24:31 -0400
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.5ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 14ms (Views: 10.4ms | ActiveRecord: 1.2ms | Allocations: 8094)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:25:49 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 9ms (Views: 8.0ms | ActiveRecord: 0.3ms | Allocations: 2601)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:26:04 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.9ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 3.7ms | ActiveRecord: 0.9ms | Allocations: 2601)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:26:12 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.3ms | Allocations: 2601)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:28:06 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (1.0ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 22ms (Views: 13.3ms | ActiveRecord: 1.0ms | Allocations: 2601)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:29:39 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 8ms (Views: 6.8ms | ActiveRecord: 0.3ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:30:48 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.8ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 16ms (Views: 11.1ms | ActiveRecord: 0.8ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:32:47 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.9ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:33:34 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:34:47 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.7ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:35:21 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.2ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:35:26 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.3ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:39:58 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (1.6ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 18ms (Views: 13.7ms | ActiveRecord: 1.6ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:40:50 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.4ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 8ms (Views: 7.5ms | ActiveRecord: 0.4ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:40:56 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.4ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 71ms (Views: 69.7ms | ActiveRecord: 0.4ms | Allocations: 2587)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:41:01 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.5ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:41:18 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:42:14 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 4.9ms | ActiveRecord: 0.3ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:42:50 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (1.1ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 9ms (Views: 7.4ms | ActiveRecord: 1.1ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:43:15 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:43:30 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:49:10 -0400
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (1.1ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 24ms (Views: 20.9ms | ActiveRecord: 1.1ms | Allocations: 2606)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:52:16 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.8ms | ActiveRecord: 0.2ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:53:06 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.4ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 7ms (Views: 6.5ms | ActiveRecord: 0.4ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:53:21 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.6ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 10ms (Views: 6.9ms | ActiveRecord: 0.6ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:54:47 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.6ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 9ms (Views: 7.5ms | ActiveRecord: 0.6ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:55:08 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.3ms | Allocations: 2584)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:56:08 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.3ms | Allocations: 2584)
+
+
+Started POST "/blog_posts" for ::1 at 2020-06-09 10:56:26 -0400
+Processing by BlogPostsController#create as */*
+  Parameters: {"title"=>"It's broken!", "author"=>"corinna", "content"=>"test", "blog_post"=>{"title"=>"It's broken!", "author"=>"corinna", "content"=>"test"}}
+  [1m[35m (0.4ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/blog_posts_controller.rb:20:in `create'
+  [1m[36mBlogPost Create (1.2ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "It's broken!"], ["author", "corinna"], ["content", "test"], ["created_at", "2020-06-09 14:56:26.426899"], ["updated_at", "2020-06-09 14:56:26.426899"]]
+  ↳ app/controllers/blog_posts_controller.rb:20:in `create'
+  [1m[35m (3.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/blog_posts_controller.rb:20:in `create'
+Completed 201 Created in 41ms (Views: 1.6ms | ActiveRecord: 5.2ms | Allocations: 2811)
+
+
+Started GET "/blog_posts" for ::1 at 2020-06-09 10:58:13 -0400
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (2.6ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 21ms (Views: 15.5ms | ActiveRecord: 2.6ms | Allocations: 2743)
+
+
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBlogPosts (20200609134359)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "blog_posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "author" varchar, "content" varchar, "likes" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200609134359"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to ChangeColumnInBlogPost (20200609135556)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ablog_posts" ("id" integer NOT NULL PRIMARY KEY, "title" varchar DEFAULT NULL, "author" varchar DEFAULT NULL, "content" varchar DEFAULT NULL, "likes" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "ablog_posts" ("id","title","author","content","likes","created_at","updated_at")
+                     SELECT "id","title","author","content","likes","created_at","updated_at" FROM "blog_posts"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "blog_posts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "blog_posts" ("id" integer NOT NULL PRIMARY KEY, "title" varchar DEFAULT NULL, "author" varchar DEFAULT NULL, "content" varchar DEFAULT NULL, "likes" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "blog_posts" ("id","title","author","content","likes","created_at","updated_at")
+                     SELECT "id","title","author","content","likes","created_at","updated_at" FROM "ablog_posts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ablog_posts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mprimary::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200609135556"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-11-23 16:48:51.751044"], ["updated_at", "2020-11-23 16:48:51.751044"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.4ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Well, this is certainly a pleasant surprise."], ["author", "Queen Bella"], ["content", "It was summer… and it was hot. Rachel was there… A lonely grey couch…”OH LOOK!” cried Ned, and then the kingdom was his forever. The End."], ["likes", 78], ["created_at", "2020-11-23 16:48:57.044661"], ["updated_at", "2020-11-23 16:48:57.044661"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Goodnight, my darlings, I'll see you tomorrow."], ["author", "Vizzini"], ["content", "No! No, Joey! U-N-I-sex."], ["likes", 2], ["created_at", "2020-11-23 16:48:57.049397"], ["updated_at", "2020-11-23 16:48:57.049397"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I love you too, honey. Good luck with your show."], ["author", "Count Rugen"], ["content", "No! No, Joey! U-N-I-sex."], ["likes", 1], ["created_at", "2020-11-23 16:48:57.053448"], ["updated_at", "2020-11-23 16:48:57.053448"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I love you too, honey. Good luck with your show."], ["author", "Miracle Max"], ["content", "No, homo habilis was erect. Australopithecus was never fully erect."], ["likes", 17], ["created_at", "2020-11-23 16:48:57.057324"], ["updated_at", "2020-11-23 16:48:57.057324"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I want your bunk!"], ["author", "The Countess"], ["content", "Oh, my God! If you say that one more time, I’m going to break up with you!"], ["likes", 83], ["created_at", "2020-11-23 16:48:57.061051"], ["updated_at", "2020-11-23 16:48:57.061051"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.2ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I don't know."], ["author", "The Albino"], ["content", "Could I BE wearing any more clothes?"], ["likes", 41], ["created_at", "2020-11-23 16:48:57.064540"], ["updated_at", "2020-11-23 16:48:57.064540"]]
+  [1m[35m (0.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Okay, I won't."], ["author", "Prince Humperdinck"], ["content", "It’s a moo point. It’s like a cow’s opinion; it doesn’t matter. It’s moo."], ["likes", 87], ["created_at", "2020-11-23 16:48:57.067519"], ["updated_at", "2020-11-23 16:48:57.067519"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.3ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Am I dying, or is this my birthday?"], ["author", "The Countess"], ["content", "Come on Ross you’re a palaeontologist – dig a little deeper."], ["likes", 98], ["created_at", "2020-11-23 16:48:57.071112"], ["updated_at", "2020-11-23 16:48:57.071112"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.2ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Well, this is certainly a pleasant surprise."], ["author", "Prince Humperdinck"], ["content", "Hey buddy, this is a family place. Put the mouse back in the house."], ["likes", 82], ["created_at", "2020-11-23 16:48:57.074346"], ["updated_at", "2020-11-23 16:48:57.074346"]]
+  [1m[35m (0.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mBlogPost Create (0.2ms)[0m  [1m[32mINSERT INTO "blog_posts" ("title", "author", "content", "likes", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "I want to go home."], ["author", "Dread Pirate Roberts"], ["content", "I'm Monica. I’m disgusting. I stalk guys and keep their underpants."], ["likes", 98], ["created_at", "2020-11-23 16:48:57.077236"], ["updated_at", "2020-11-23 16:48:57.077236"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/rails/info/routes" for ::1 at 2020-11-23 11:49:13 -0500
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::InfoController#routes as HTML
+  Rendering /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.1/lib/rails/templates/rails/info/routes.html.erb within layouts/application
+  Rendered collection of /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/actionpack-6.0.3.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [24 times] (Duration: 13.7ms | Allocations: 3508)
+  Rendered /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/actionpack-6.0.3.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (Duration: 4.9ms | Allocations: 1194)
+  Rendered /Users/corinnamoore/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.1/lib/rails/templates/rails/info/routes.html.erb within layouts/application (Duration: 22.4ms | Allocations: 6774)
+Completed 200 OK in 37ms (Views: 30.4ms | ActiveRecord: 0.0ms | Allocations: 9527)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:50:43 -0500
+Processing by BlogPostsController#index as HTML
+  [1m[36mBlogPost Load (0.5ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 13ms (Views: 8.9ms | ActiveRecord: 1.2ms | Allocations: 8001)
+
+
+Started GET "/blog_posts/1" for ::1 at 2020-11-23 11:50:55 -0500
+Processing by BlogPostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts" WHERE "blog_posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/blog_posts_controller.rb:44:in `set_blog_post'
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 1214)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:53:35 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.2ms | Allocations: 2439)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:54:08 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.3ms | Allocations: 2438)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:54:50 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.1ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.1ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:55:00 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.1ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 3.1ms | ActiveRecord: 0.1ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:55:10 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 37ms (Views: 36.4ms | ActiveRecord: 0.2ms | Allocations: 2424)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 11:56:41 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 2ms (Views: 2.0ms | ActiveRecord: 0.2ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:00:16 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.8ms | ActiveRecord: 0.3ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:01:06 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.2ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:02:14 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 18ms (Views: 16.3ms | ActiveRecord: 0.2ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:03:26 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 0.3ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:04:23 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 5.4ms | ActiveRecord: 0.3ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:05:17 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.4ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 7ms (Views: 5.6ms | ActiveRecord: 0.4ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:06:13 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 5.3ms | ActiveRecord: 0.2ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:06:46 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.3ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 4.9ms | ActiveRecord: 0.3ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:06:50 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.8ms | ActiveRecord: 0.2ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:06:56 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.1ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.1ms | Allocations: 2421)
+
+
+Started GET "/blog_posts" for ::1 at 2020-11-23 12:07:02 -0500
+Processing by BlogPostsController#index as */*
+  [1m[36mBlogPost Load (0.2ms)[0m  [1m[34mSELECT "blog_posts".* FROM "blog_posts"[0m
+  ↳ app/controllers/blog_posts_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 5.5ms | ActiveRecord: 0.2ms | Allocations: 2421)
+
+
